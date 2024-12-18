@@ -40,30 +40,7 @@ function parseExpiration(expiration) {
   }
 }
 
-// Generate JWT
-function generateJWT(payload, secretKey, expiresIn = "1h") {
-  const header = btoa(JSON.stringify({ alg: "HS256", typ: "JWT" }));
-  const payloadBase64 = btoa(JSON.stringify({ ...payload, exp: Date.now() + parseExpiration(expiresIn) }));
-  const signature = CryptoJS.HmacSHA256(`${header}.${payloadBase64}`, secretKey).toString(CryptoJS.enc.Base64);
-  return `${header}.${payloadBase64}.${signature}`;
-}
 
-// Verify JWT
-function verifyJWT(token) {
-  const [header, payloadBase64, signature] = token.split(".");
-  const validSignature = CryptoJS.HmacSHA256(`${header}.${payloadBase64}`, SECRET_KEY).toString(CryptoJS.enc.Base64);
-   if (validSignature !== signature) {
-    return { valid: false, message: "Signature invalide" };
-  }
-
-  const payload = JSON.parse(atob(payloadBase64));
-
-  if (Date.now() > payload.exp) {
-    return { valid: false, message: "Le token a expiré" };
-  }
-
-  return { valid: true, payload };
-}
 
 // Handle registration
 document.getElementById("registerFormElement").addEventListener("submit", (e) => {
