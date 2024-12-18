@@ -103,15 +103,11 @@
       const jwtInput = document.getElementById('jwtInput').value;
       const output = document.getElementById('output');
 
-      if (jwtInput.trim() === '') {
-        output.textContent = 'Veuillez entrer un JWT.';
-        output.className = 'error';
-        return;
-      }
+   
 
       try {
         const result = verifyJWT(jwtInput); // Call the verifyJWT function defined in main.js
-
+        debugger;
         if (result.valid) {
           output.textContent = 'JWT valide!';
           output.className = 'success';
@@ -129,7 +125,7 @@
           throw new Error('JWT invalide');
         }
       } catch (error) {
-        output.textContent = 'JWT invalide. Veuillez vérifier.';
+         output.textContent = 'JWT invalide. Veuillez vérifier.';
         output.className = 'error';
       }
     }
