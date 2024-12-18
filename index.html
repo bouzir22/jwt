@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page d'Accueil</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+      text-align: center;
+    }
+
+    #container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    #output.success {
+      color: #28a745;
+      border-color: #28a745;
+    }
+
+    #output.error {
+      color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .form-container {
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Bienvenue sur notre site</h1>
+    <div id="loginForm" class="form-container active">
+      <h2>Connexion</h2>
+      <form id="loginFormElement">
+        <input type="username" id="loginEmail" placeholder="Email" required />
+        <input type="password" id="loginPassword" placeholder="Mot de passe" required />
+        <button type="submit">Se connecter</button>
+      </form>
+      <p>Pas encore inscrit ? <a href="javascript:void(0)" onclick="showRegisterForm()">S'inscrire</a></p>
+    </div>
+
+    <div id="registerForm" class="form-container">
+      <h2>Inscription</h2>
+      <form id="registerFormElement">
+        <input type="email" id="registerEmail" placeholder="Email" required />
+        <input type="password" id="registerPassword" placeholder="Mot de passe" required />
+        <button type="submit">S'inscrire</button>
+      </form>
+      <p>Déjà un compte ? <a href="javascript:void(0)" onclick="showLoginForm()">Se connecter</a></p>
+    </div>
+
+    <div id="output"></div>
+
+    <div id="tokenDisplay"></div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

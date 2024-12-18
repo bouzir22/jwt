@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Protégée</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+      color: #333;
+      text-align: center;
+    }
+
+    #container {
+      max-width: 600px;
+      margin: 50px auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    input {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background: #007BFF;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f8f9fa;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    #output.success {
+      color: #28a745;
+      border-color: #28a745;
+    }
+
+    #output.error {
+      color: #dc3545;
+      border-color: #dc3545;
+    }
+
+    .admin-content {
+      display: none;
+      color: #007BFF;
+    }
+
+    .user-content {
+      display: none;
+      color: #28a745;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Page Protégée</h1>
+    <p>Veuillez entrer un JWT valide pour accéder au contenu :</p>
+    <input type="text" id="jwtInput" placeholder="Entrez votre JWT" />
+    <button onclick="validateJWT()">Vérifier le JWT</button>
+    <p id="output"></p>
+    
+    <!-- Content for users -->
+    <div id="userContent" class="user-content">
+      <h2>Contenu Utilisateur</h2>
+      <p>Bienvenue sur la page utilisateur !</p>
+    </div>
+    
+    <!-- Content for admins -->
+    <div id="adminContent" class="admin-content">
+      <h2>Contenu Administrateur</h2>
+      <p>Bienvenue sur la page administrateur ! Vous avez accès à des fonctionnalités avancées.</p>
+    </div>
+  </div>
+
+  <script src="main.js"></script>
+  <script>
+    // Function to validate JWT and display content based on role
+    function validateJWT() {
+      const jwtInput = document.getElementById('jwtInput').value;
+      const output = document.getElementById('output');
+
+      if (jwtInput.trim() === '') {
+        output.textContent = 'Veuillez entrer un JWT.';
+        output.className = 'error';
+        return;
+      }
+
+      try {
+        const result = verifyJWT(jwtInput); // Call the verifyJWT function defined in main.js
+
+        if (result.valid) {
+          output.textContent = 'JWT valide!';
+          output.className = 'success';
+          console.log(result.payload.role)
+          
+          // Show content based on the role (admin or user)
+          if (result.payload.role === 'admin') {
+            document.getElementById('adminContent').style.display = 'block';
+            document.getElementById('userContent').style.display = 'none';
+          } else if (result.payload.role === 'user') {
+            document.getElementById('adminContent').style.display = 'none';
+            document.getElementById('userContent').style.display = 'block';
+          }
+        } else {
+          throw new Error('JWT invalide');
+        }
+      } catch (error) {
+        output.textContent = 'JWT invalide. Veuillez vérifier.';
+        output.className = 'error';
+      }
+    }
+    
+ 
+  </script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+</body>
+</html>
